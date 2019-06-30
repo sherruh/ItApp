@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.anouncement.AnouncementActivity">
+
+    <ProgressBar
+        android:id="@+id/anouncement_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="340dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+    <EditText
+        android:id="@+id/anouncement_edit_title"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="Title"/>
+
+    <EditText
+        android:id="@+id/anouncement_edit_year"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="16dp"
+        android:hint="Year of car"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/anouncement_edit_title" />
+
+    <EditText
+        android:id="@+id/anouncement_edit_city"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="28dp"
+        android:hint="City"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/anouncement_edit_year" />
+
+    <EditText
+        android:id="@+id/anouncement_edit_price"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="16dp"
+        android:hint="Price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/anouncement_edit_city" />
+
+    <Button
+        android:id="@+id/anouncement_buttona_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="36dp"
+        android:text="Add anouncement"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/anouncement_edit_price" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,11 @@
-package com.rentapp.login;
+package com.rentapp.ui.login;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +17,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -32,13 +31,17 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.rentapp.App;
 import com.rentapp.R;
 import com.rentapp.utils.Logger;
 import com.rentapp.utils.Toaster;
 
 public class LoginActivity extends AppCompatActivity {
+
+    public static void start(Context context){
+        context.startActivity(new Intent(context,LoginActivity.class));
+    }
 
     private final int RC_GOOGLE_SIGN_IN = 999;
     private CallbackManager callbackManager;
@@ -63,15 +66,12 @@ public class LoginActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        final GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount googleAccount = GoogleSignIn.getLastSignedInAccount(this);
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         callbackManager = CallbackManager.Factory.create();
-
         facebookSignInInit();
 
-        if (googleAccount == null) googleSingInInit(mGoogleSignInClient);
-        else Logger.message("Signed in yet: " + googleAccount.getDisplayName());
+        googleSingInInit(mGoogleSignInClient);
         button = findViewById(R.id.button2);
         button.setVisibility(View.INVISIBLE);
         button.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 signInButton.setVisibility(View.VISIBLE);
                 loginButton.setVisibility(View.VISIBLE);
-                //TODO
+
             }
         });
     }
@@ -142,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
-        Logger.message("handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -151,13 +150,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Logger.message( "signInWithCredential:success");
-                            ImageView imageView = findViewById(R.id.imageView);
-                            Glide.with(LoginActivity.this)
-                                    .load(task.getResult().getUser().getPhotoUrl())
-                                    .into(imageView);
                             loginButton.setVisibility(View.INVISIBLE);
-                            FirebaseUser user = mAuth.getCurrentUser();
-
+                            finishLoginActivity();
                         } else {
                             Logger.message( "signInWithCredential:failure" + task.getException());
                             Toaster.message(LoginActivity.this,"Authentiation failure");
@@ -167,7 +161,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Logger.message("firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -175,12 +168,9 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Logger.message( "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            ImageView imageView = findViewById(R.id.imageView2);
-                            Glide.with(LoginActivity.this).load(task.getResult().getUser().getPhotoUrl())
-                                    .into(imageView);
+                            Logger.message( "signInWithCredential:success1");
                             signInButton.setVisibility(View.INVISIBLE);
+                            finishLoginActivity();
                         } else {
                             Logger.message("signInWithCredential:failure " + task.getException());
                             Snackbar.make(findViewById(R.id.login_button), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
@@ -189,4 +179,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void finishLoginActivity() {
+        finish();
+    }
+
 }
