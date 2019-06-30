@@ -74,7 +74,7 @@ public class SearchFragment extends Fragment {
         adapter = new AnouncementAdapter();
         recyclerView.setAdapter(adapter);
 
-        appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+        appBarLayout = getActivity().findViewById(R.id.appbar);
 
         editSearch = getActivity().findViewById(R.id.search_edit_search);
         editSearch.addTextChangedListener(new TextWatcher() {
@@ -117,4 +117,6 @@ public class SearchFragment extends Fragment {
         appBarLayout.setExpanded(true);
         super.onPause();
     }
+
+    //TODO find adapter Position
 }

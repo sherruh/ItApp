@@ -12,6 +12,7 @@ import java.util.List;
 public class SearchViewModel extends ViewModel {
     MutableLiveData<List<Vehicle>> vehiclesLiveData = new MutableLiveData<>();
     MutableLiveData<String> messageLiveData = new MutableLiveData<>();
+
     private int adapterPosition;
 
     public void getAllVehicles(){
@@ -61,4 +62,6 @@ public class SearchViewModel extends ViewModel {
 
         return adapterPosition;
     }
+
+    //TODO isLoading
 }
