@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rentapp.R;
-import com.rentapp.model.Vehicle;
+import com.rentapp.model.Anouncement;
 import com.rentapp.ui.anouncement.AnouncementActivity;
 import com.rentapp.ui.search.recycler.AnouncementAdapter;
 
@@ -53,10 +53,10 @@ public class MyAnouncementsFragment extends Fragment {
     private void initViewModel() {
 
         viewModel = ViewModelProviders.of(this).get(MyAnouncementsViewModel.class);
-        viewModel.anouncementsOfUserLiveData.observe(this, new Observer<List<Vehicle>>() {
+        viewModel.anouncementsOfUserLiveData.observe(this, new Observer<List<Anouncement>>() {
             @Override
-            public void onChanged(List<Vehicle> vehicles) {
-                adapter.setVehicles(vehicles);
+            public void onChanged(List<Anouncement> anouncements) {
+                adapter.setAnouncements(anouncements);
             }
         });
     }

@@ -10,7 +10,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.rentapp.model.Vehicle;
+import com.rentapp.model.Anouncement;
 import com.rentapp.utils.Logger;
 
 import java.util.ArrayList;
@@ -18,13 +18,15 @@ import java.util.List;
 
 public class RemoteStorage implements IRemoteStorage {
 
+    private final String TABLE_ANOUNCEMENTS = "anouncements";
+    private final String TABLE_VEHICLES = "vehicles";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
-    public void addAnouncement(Vehicle vehicle, final WriteToRemoteCallback callback) {
+    public void addAnouncement(Anouncement anouncement, final WriteToRemoteCallback callback) {
         Logger.message(db.toString());
-        db.collection("vehicles")
-                .add(vehicle)
+        db.collection(TABLE_ANOUNCEMENTS)
+                .add(anouncement)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -45,17 +47,17 @@ public class RemoteStorage implements IRemoteStorage {
     @Override
     public void getAnouncements(final GetFromRemoteCallback callback) {
 
-        db.collection("vehicles")
+        db.collection(TABLE_ANOUNCEMENTS)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            List<Vehicle> vehicles = new ArrayList<>();
+                            List<Anouncement> anouncements = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                vehicles.add(document.toObject(Vehicle.class));
+                                anouncements.add(document.toObject(Anouncement.class));
                             }
-                            callback.onSucces(vehicles);
+                            callback.onSucces(anouncements);
                         } else {
                             Logger.message(task.getException().getMessage());
                             callback.onFailure(task.getException().getMessage());
@@ -68,18 +70,18 @@ public class RemoteStorage implements IRemoteStorage {
     @Override
     public void getFilteredAnouncements(String filter, final GetFromRemoteCallback callback) {
 
-        db.collection("vehicles")
+        db.collection(TABLE_ANOUNCEMENTS)
                 .whereGreaterThanOrEqualTo("title",filter)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            List<Vehicle> vehicles = new ArrayList<>();
+                            List<Anouncement> anouncements = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                vehicles.add(document.toObject(Vehicle.class));
+                                anouncements.add(document.toObject(Anouncement.class));
                             }
-                            callback.onSucces(vehicles);
+                            callback.onSucces(anouncements);
                         } else {
                             Logger.message(task.getException().getMessage());
                             callback.onFailure(task.getException().getMessage());
@@ -92,18 +94,18 @@ public class RemoteStorage implements IRemoteStorage {
     @Override
     public void getUserAnouncements(String userId, final GetFromRemoteCallback callback) {
 
-        db.collection("vehicles")
+        db.collection(TABLE_ANOUNCEMENTS)
                 .whereGreaterThanOrEqualTo("userID",userId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            List<Vehicle> vehicles = new ArrayList<>();
+                            List<Anouncement> anouncements = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                vehicles.add(document.toObject(Vehicle.class));
+                                anouncements.add(document.toObject(Anouncement.class));
                             }
-                            callback.onSucces(vehicles);
+                            callback.onSucces(anouncements);
                         } else {
                             Logger.message(task.getException().getMessage());
                             callback.onFailure(task.getException().getMessage());
@@ -111,5 +113,27 @@ public class RemoteStorage implements IRemoteStorage {
                     }
                 });
 
+    }
+
+    @Override
+    public void getVehicleMarks(final GetFromRemoteCallback callback) {
+
+        db.collection(TABLE_VEHICLES)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> vehicleMarks = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                vehicleMarks.add(document.getString("Name"));
+                            }
+                            callback.onSucces(vehicleMarks);
+                        } else {
+                            Logger.message(task.getException().getMessage());
+                            callback.onFailure(task.getException().getMessage());
+                        }
+                    }
+                });
     }
 }

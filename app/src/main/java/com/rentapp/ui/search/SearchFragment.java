@@ -1,7 +1,5 @@
 package com.rentapp.ui.search;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,14 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.rentapp.R;
-import com.rentapp.model.Vehicle;
+import com.rentapp.model.Anouncement;
 import com.rentapp.ui.search.recycler.AnouncementAdapter;
-import com.rentapp.utils.Logger;
 
 import java.util.List;
 
@@ -99,14 +94,14 @@ public class SearchFragment extends Fragment {
 
         if (viewModel == null) {
             viewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
-            viewModel.vehiclesLiveData.observe(getActivity(), new Observer<List<Vehicle>>() {
+            viewModel.vehiclesLiveData.observe(getActivity(), new Observer<List<Anouncement>>() {
                 @Override
-                public void onChanged(List<Vehicle> vehicles) {
-                    adapter.setVehicles(vehicles);
+                public void onChanged(List<Anouncement> anouncements) {
+                    adapter.setAnouncements(anouncements);
                 }
             });
         }else {
-            adapter.setVehicles(viewModel.vehiclesLiveData.getValue());
+            adapter.setAnouncements(viewModel.vehiclesLiveData.getValue());
             recyclerView.scrollToPosition(viewModel.getAdapterPosition());
         }
     }

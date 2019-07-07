@@ -1,18 +1,20 @@
 package com.rentapp.repository.remote;
 
-import com.rentapp.model.Vehicle;
+import com.rentapp.model.Anouncement;
 
 import java.util.List;
 
 public interface IRemoteStorage {
 
-    void addAnouncement(Vehicle vehicle, WriteToRemoteCallback callback);
+    void addAnouncement(Anouncement anouncement, WriteToRemoteCallback callback);
 
     void getAnouncements(GetFromRemoteCallback callback);
 
     void getFilteredAnouncements(String filter, GetFromRemoteCallback callback);
 
     void getUserAnouncements(String userId, GetFromRemoteCallback callback);
+
+    void getVehicleMarks(GetFromRemoteCallback callback);
 
     public interface WriteToRemoteCallback{
 
@@ -22,9 +24,9 @@ public interface IRemoteStorage {
 
     }
 
-    public interface GetFromRemoteCallback{
+    public interface GetFromRemoteCallback<T>{
 
-         void onSucces(List<Vehicle> vehicles);
+         void onSucces(T data);
 
          void onFailure(String message);
 

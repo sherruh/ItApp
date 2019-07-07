@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rentapp.R;
-import com.rentapp.model.Vehicle;
+import com.rentapp.model.Anouncement;
 
 public class AnouncementViewHolder extends RecyclerView.ViewHolder {
 
@@ -21,10 +21,10 @@ public class AnouncementViewHolder extends RecyclerView.ViewHolder {
         textTitle = itemView.findViewById(R.id.item_anouncement_title);
     }
 
-    public void onBind(Vehicle vehicle){
+    public void onBind(Anouncement anouncement){
 
-        textTitle.setText( "Title: " + vehicle.getTitle());
-        textPrice.setText( "Price: " + String.valueOf(vehicle.getPrice()));
+        textTitle.setText( "Title: " + anouncement.getTitle());
+        textPrice.setText( "Price: " + String.valueOf(anouncement.getPrice()));
 
     }
 

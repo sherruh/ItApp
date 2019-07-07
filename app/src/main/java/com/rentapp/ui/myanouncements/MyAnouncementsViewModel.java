@@ -1,26 +1,25 @@
 package com.rentapp.ui.myanouncements;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.rentapp.App;
-import com.rentapp.model.Vehicle;
+import com.rentapp.model.Anouncement;
 import com.rentapp.repository.remote.IRemoteStorage;
 
 import java.util.List;
 
 public class MyAnouncementsViewModel extends ViewModel {
 
-    MutableLiveData<List<Vehicle>> anouncementsOfUserLiveData = new MutableLiveData<>();
+    MutableLiveData<List<Anouncement>> anouncementsOfUserLiveData = new MutableLiveData<>();
     MutableLiveData<String> messageLiveData = new MutableLiveData<>();
 
     public void getUserAnouncements(){
-        App.remoteStorage.getUserAnouncements(App.getFirebaseUser().getUid(), new IRemoteStorage.GetFromRemoteCallback() {
+        App.remoteStorage.getUserAnouncements(App.getFirebaseUser().getUid(), new IRemoteStorage.GetFromRemoteCallback<List<Anouncement>>() {
             @Override
-            public void onSucces(List<Vehicle> vehicles) {
+            public void onSucces(List<Anouncement> anouncements) {
 
-                anouncementsOfUserLiveData.setValue(vehicles);
+                anouncementsOfUserLiveData.setValue(anouncements);
             }
 
             @Override

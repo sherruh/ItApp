@@ -8,15 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rentapp.R;
-import com.rentapp.model.Vehicle;
-import com.rentapp.utils.Logger;
+import com.rentapp.model.Anouncement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AnouncementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private List<Anouncement> anouncements = new ArrayList<>();
 
 
 
@@ -33,7 +32,7 @@ public class AnouncementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         if(holder instanceof AnouncementViewHolder){
-            ((AnouncementViewHolder)holder).onBind(vehicles.get(position));
+            ((AnouncementViewHolder)holder).onBind(anouncements.get(position));
         }
 
     }
@@ -42,13 +41,13 @@ public class AnouncementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return vehicles.size();
+        return anouncements.size();
     }
 
-    public void setVehicles(List<Vehicle> vehicles){
+    public void setAnouncements(List<Anouncement> anouncements){
 
-        this.vehicles.clear();
-        this.vehicles.addAll(vehicles);
+        this.anouncements.clear();
+        this.anouncements.addAll(anouncements);
         notifyDataSetChanged();
     }
 

@@ -5,14 +5,14 @@ import com.rentapp.App;
 
 import java.util.Date;
 
-public class Vehicle {
+public class Anouncement {
     private String title;
     private String yearOfCar;
     private String city;
     private int price;
     private String userID;
 
-    public Vehicle(String title, String yearOfCar, String city, int price, String userId) {
+    public Anouncement(String title, String yearOfCar, String city, int price, String userId) {
         this.title = title;
         this.yearOfCar = yearOfCar;
         this.city = city;
@@ -20,7 +20,7 @@ public class Vehicle {
         this.userID = userId;
     }
 
-    public Vehicle() {
+    public Anouncement() {
 
     }
 
