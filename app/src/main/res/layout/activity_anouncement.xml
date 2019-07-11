@@ -72,9 +72,59 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="192dp"
         android:text="Add anouncement"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/anouncement_edit_price" />
+
+    <ImageView
+        android:id="@+id/anouncement_image_1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:background="#226D4A4A"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/anouncement_edit_price" />
+
+    <ImageView
+        android:id="@+id/anouncement_image_2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:background="#226D4A4A"
+        app:layout_constraintStart_toEndOf="@+id/anouncement_image_1"
+        app:layout_constraintTop_toBottomOf="@+id/anouncement_edit_price" />
+
+    <ImageView
+        android:id="@+id/anouncement_image_3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:background="#226D4A4A"
+        app:layout_constraintStart_toEndOf="@+id/anouncement_image_2"
+        app:layout_constraintTop_toBottomOf="@+id/anouncement_edit_price" />
+
+    <ImageView
+        android:id="@+id/anouncement_image_4"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:background="#226D4A4A"
+        app:layout_constraintStart_toEndOf="@+id/anouncement_image_3"
+        app:layout_constraintTop_toBottomOf="@+id/anouncement_edit_price" />
+
+    <ImageView
+        android:id="@+id/anouncement_image_camera"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/ic_camera"
+        app:layout_constraintStart_toEndOf="@+id/anouncement_image_3"
+        app:layout_constraintTop_toBottomOf="@+id/anouncement_image_4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

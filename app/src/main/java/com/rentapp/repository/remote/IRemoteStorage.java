@@ -1,5 +1,7 @@
 package com.rentapp.repository.remote;
 
+import android.net.Uri;
+
 import com.rentapp.model.Anouncement;
 
 import java.util.List;
@@ -15,6 +17,8 @@ public interface IRemoteStorage {
     void getUserAnouncements(String userId, GetFromRemoteCallback callback);
 
     void getVehicleMarks(GetFromRemoteCallback callback);
+
+    void uploadImage(String imageName, Uri uri,GetFromRemoteCallback callback);
 
     public interface WriteToRemoteCallback{
 

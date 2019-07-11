@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.rentapp.App;
 
 import java.util.Date;
+import java.util.List;
 
 public class Anouncement {
     private String title;
@@ -11,13 +12,15 @@ public class Anouncement {
     private String city;
     private int price;
     private String userID;
+    private List<String> imagesUrl;
 
-    public Anouncement(String title, String yearOfCar, String city, int price, String userId) {
+    public Anouncement(String title, String yearOfCar, String city, int price, String userID, List<String> imagesUrl) {
         this.title = title;
         this.yearOfCar = yearOfCar;
         this.city = city;
         this.price = price;
-        this.userID = userId;
+        this.userID = userID;
+        this.imagesUrl = imagesUrl;
     }
 
     public Anouncement() {
@@ -62,5 +65,13 @@ public class Anouncement {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public List<String> getImagesUrl() {
+        return imagesUrl;
+    }
+
+    public void setImagesUrl(List<String> imagesUrl) {
+        this.imagesUrl = imagesUrl;
     }
 }

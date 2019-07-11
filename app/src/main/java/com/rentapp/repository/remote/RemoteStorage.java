@@ -1,5 +1,7 @@
 package com.rentapp.repository.remote;
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -10,6 +12,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.rentapp.model.Anouncement;
 import com.rentapp.utils.Logger;
 
@@ -21,10 +26,11 @@ public class RemoteStorage implements IRemoteStorage {
     private final String TABLE_ANOUNCEMENTS = "anouncements";
     private final String TABLE_VEHICLES = "vehicles";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();;
 
     @Override
     public void addAnouncement(Anouncement anouncement, final WriteToRemoteCallback callback) {
-        Logger.message(db.toString());
+
         db.collection(TABLE_ANOUNCEMENTS)
                 .add(anouncement)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -133,6 +139,27 @@ public class RemoteStorage implements IRemoteStorage {
                             Logger.message(task.getException().getMessage());
                             callback.onFailure(task.getException().getMessage());
                         }
+                    }
+                });
+    }
+
+    @Override
+    public void uploadImage(String imageName, Uri uri, GetFromRemoteCallback callback) {
+
+        StorageReference riversRef = storageReference.child("images" + imageName);
+        riversRef.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        String downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
                     }
                 });
     }
