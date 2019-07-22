@@ -56,6 +56,7 @@ public class AnouncementActivity extends AppCompatActivity {
     private AnouncementViewModel viewModel;
 
     private Uri outputFileUri;
+    private String imageName;
 
 
     @Override
@@ -167,6 +168,7 @@ public class AnouncementActivity extends AppCompatActivity {
         if (requestCode == RC_CAMERA) {
             if (resultCode == Activity.RESULT_OK) {
                 Glide.with(image1).load(outputFileUri).into(image1);
+                viewModel.sendImage(imageName,outputFileUri);
                 }
 
         }
@@ -177,7 +179,8 @@ public class AnouncementActivity extends AppCompatActivity {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-        String path = Environment.getExternalStorageDirectory() + "/photo" + new Date().getTime() + ".jpg";
+        imageName =  "photo" + new Date().getTime() + ".jpg";
+        String path = Environment.getExternalStorageDirectory() + "/" + imageName;
         File file = new File(path);
         outputFileUri = Uri.fromFile(file);
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);

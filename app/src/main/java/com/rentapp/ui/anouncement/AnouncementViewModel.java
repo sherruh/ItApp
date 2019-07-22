@@ -2,6 +2,9 @@ package com.rentapp.ui.anouncement;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -70,4 +73,21 @@ public class AnouncementViewModel extends ViewModel {
         }
     }
 
+
+    public void sendImage(String imageName, Uri outputFileUri) {
+
+        App.remoteStorage.uploadImage(imageName, outputFileUri, new IRemoteStorage.GetFromRemoteCallback() {
+            @Override
+            public void onSucces(Object data) {
+
+                Logger.message((String)data);
+            }
+
+            @Override
+            public void onFailure(String message) {
+
+                Logger.message(message);
+            }
+        });
+    }
 }
