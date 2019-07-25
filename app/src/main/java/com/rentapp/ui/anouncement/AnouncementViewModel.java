@@ -16,6 +16,7 @@ import com.rentapp.model.Anouncement;
 import com.rentapp.repository.remote.IRemoteStorage;
 import com.rentapp.utils.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnouncementViewModel extends ViewModel {
@@ -27,8 +28,11 @@ public class AnouncementViewModel extends ViewModel {
     SingleLiveEvent<Void> hasCameraEvent = new SingleLiveEvent<>();
     MutableLiveData<String> messageLiveData = new MutableLiveData<>();
 
+    private List<String> imageUrls = new ArrayList<>();
+
     public void addAnouncement(Anouncement anouncement){
         isUploading.setValue(true);
+        anouncement.setImagesUrl(imageUrls);
         App.remoteStorage.addAnouncement(anouncement, new IRemoteStorage.WriteToRemoteCallback() {
             @Override
             public void onSucces() {
@@ -79,8 +83,9 @@ public class AnouncementViewModel extends ViewModel {
         App.remoteStorage.uploadImage(imageName, outputFileUri, new IRemoteStorage.GetFromRemoteCallback() {
             @Override
             public void onSucces(Object data) {
-
-                Logger.message((String)data);
+                Logger.message((String) data);
+                imageUrls.add((String)data);
+                //TODO check uploadings
             }
 
             @Override

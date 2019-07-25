@@ -146,21 +146,25 @@ public class RemoteStorage implements IRemoteStorage {
     @Override
     public void uploadImage(String imageName, Uri uri, final GetFromRemoteCallback callback) {
 
-        StorageReference riversRef = storageReference.child("images/" + imageName);
-        riversRef.putFile(uri)
+        final StorageReference imagesRef = storageReference.child("images/" + imageName);
+        imagesRef.putFile(uri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        String downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-                        callback.onSucces(downloadUrl);
+
+                        imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                callback.onSucces(uri.toString());
+                            }
+                        });
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
+
                         callback.onFailure(exception.getMessage());
                     }
                 });

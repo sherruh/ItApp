@@ -48,8 +48,13 @@ public class AnouncementActivity extends AppCompatActivity {
     private EditText editCity;
     private EditText editPrice;
     private Button buttonAdd;
-    private ImageView imageCamera;
+
     private ImageView image1;
+    private ImageView image2;
+    private ImageView image3;
+    private ImageView image4;
+    private int currentImageId;
+
 
     private ProgressBar progressBarIsUploading;
     private Spinner spinnerMarks;
@@ -149,14 +154,42 @@ public class AnouncementActivity extends AppCompatActivity {
                         ));
             }
         });
-        imageCamera = findViewById(R.id.anouncement_image_camera);
-        imageCamera.setOnClickListener(new View.OnClickListener() {
+        image1 = findViewById(R.id.anouncement_image_1);
+        image2 = findViewById(R.id.anouncement_image_2);
+        image3 = findViewById(R.id.anouncement_image_3);
+        image4 = findViewById(R.id.anouncement_image_4);
+
+        image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentImageId = image1.getId();
                 viewModel.onClickCamera(AnouncementActivity.this);
             }
         });
-        image1 = findViewById(R.id.anouncement_image_1);
+
+        image2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentImageId = image2.getId();
+                viewModel.onClickCamera(AnouncementActivity.this);
+            }
+        });
+
+        image3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentImageId = image3.getId();
+                viewModel.onClickCamera(AnouncementActivity.this);
+            }
+        });
+
+        image4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentImageId = image4.getId();
+                viewModel.onClickCamera(AnouncementActivity.this);
+            }
+        });
 
         spinnerMarks = findViewById(R.id.anouncement_spinner_mark);
 
@@ -167,8 +200,8 @@ public class AnouncementActivity extends AppCompatActivity {
 
         if (requestCode == RC_CAMERA) {
             if (resultCode == Activity.RESULT_OK) {
-                Glide.with(image1).load(outputFileUri).into(image1);
-                viewModel.sendImage(imageName,outputFileUri);
+                Glide.with(findViewById(currentImageId)).load(outputFileUri).into((ImageView) findViewById(currentImageId));
+                    viewModel.sendImage(imageName,outputFileUri);
                 }
 
         }
