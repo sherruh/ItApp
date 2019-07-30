@@ -16,8 +16,12 @@ import java.util.List;
 public class AnouncementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Anouncement> anouncements = new ArrayList<>();
+    private AnouncementViewHolder.OnAnouncementClick onAnouncementClick;
 
+    public AnouncementAdapter(AnouncementViewHolder.OnAnouncementClick onAnouncementClick){
 
+        this.onAnouncementClick = onAnouncementClick;
+    }
 
     @NonNull
     @Override
@@ -25,7 +29,7 @@ public class AnouncementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_anouncement,parent,false);
-        return new AnouncementViewHolder(view);
+        return new AnouncementViewHolder(view,onAnouncementClick);
     }
 
     @Override

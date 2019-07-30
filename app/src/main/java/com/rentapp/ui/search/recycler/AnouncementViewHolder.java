@@ -21,7 +21,7 @@ public class AnouncementViewHolder extends RecyclerView.ViewHolder {
     private TextView textPrice;
     private List<ImageView> images;
 
-    public AnouncementViewHolder(@NonNull View itemView) {
+    public AnouncementViewHolder(@NonNull View itemView, final OnAnouncementClick onAnouncementClick ) {
         super(itemView);
 
         textPrice = itemView.findViewById(R.id.item_anouncement_price);
@@ -31,6 +31,14 @@ public class AnouncementViewHolder extends RecyclerView.ViewHolder {
         images.add((ImageView) itemView.findViewById(R.id.item_anouncement_image2));
         images.add((ImageView) itemView.findViewById(R.id.item_anouncement_image3));
         images.add((ImageView) itemView.findViewById(R.id.item_anouncement_image4));
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onAnouncementClick.onClick(getAdapterPosition());
+            }
+        });
+
     }
 
     public void onBind(Anouncement anouncement){
@@ -38,10 +46,12 @@ public class AnouncementViewHolder extends RecyclerView.ViewHolder {
         textTitle.setText( "Title: " + anouncement.getTitle());
         textPrice.setText( "Price: " + String.valueOf(anouncement.getPrice()));
 
+        for (ImageView imageView : images) {
+            imageView.setImageDrawable(null);
+        }
+
         if (anouncement.getImagesUrl() == null) {
-            for (ImageView imageView : images) {
-                imageView.setImageDrawable(null);
-            }
+
         }else{
             for(int i = 0; i < anouncement.getImagesUrl().size(); i++){
                 Glide.with(images.get(i)).load(anouncement.getImagesUrl().get(i)).into(images.get(i));
@@ -52,6 +62,9 @@ public class AnouncementViewHolder extends RecyclerView.ViewHolder {
     }
 
 
+    public interface OnAnouncementClick{
+        void onClick( int i);
+    }
 
 
 }

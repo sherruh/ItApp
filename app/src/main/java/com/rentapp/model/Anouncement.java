@@ -3,10 +3,11 @@ package com.rentapp.model;
 import com.google.firebase.auth.FirebaseUser;
 import com.rentapp.App;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Anouncement {
+public class Anouncement implements Serializable {
     private String title;
     private String yearOfCar;
     private String city;
@@ -15,12 +16,13 @@ public class Anouncement {
     private List<String> imagesUrl;
 
     public Anouncement(String title, String yearOfCar, String city, int price, String userID, List<String> imagesUrl) {
-        this.title = title;
+        this.title = title;//TODO rename to Brand
         this.yearOfCar = yearOfCar;
         this.city = city;
         this.price = price;
         this.userID = userID;
         this.imagesUrl = imagesUrl;
+        //TODO add type
     }
 
     public Anouncement() {

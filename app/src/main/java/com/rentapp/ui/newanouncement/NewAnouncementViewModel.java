@@ -1,15 +1,12 @@
-package com.rentapp.ui.anouncement;
+package com.rentapp.ui.newanouncement;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.ImageView;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.api.Context;
 import com.rentapp.App;
 import com.rentapp.core.SingleLiveEvent;
 import com.rentapp.model.Anouncement;
@@ -19,7 +16,7 @@ import com.rentapp.utils.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnouncementViewModel extends ViewModel {
+public class NewAnouncementViewModel extends ViewModel {
 
     MutableLiveData<String> transactionResult = new MutableLiveData<>();
     MutableLiveData<List<String>> vehicleMarksLiveData = new MutableLiveData<>();

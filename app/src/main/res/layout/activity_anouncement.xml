@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.anouncement.AnouncementActivity">
+    tools:context=".ui.newanouncement.NewAnouncementActivity">
 
     <ProgressBar
         android:id="@+id/anouncement_progress"
@@ -64,6 +64,7 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="16dp"
         android:hint="Price"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/anouncement_edit_city" />
 

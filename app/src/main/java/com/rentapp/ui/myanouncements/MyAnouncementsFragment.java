@@ -17,13 +17,14 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rentapp.R;
 import com.rentapp.model.Anouncement;
-import com.rentapp.ui.anouncement.AnouncementActivity;
+import com.rentapp.ui.newanouncement.NewAnouncementActivity;
 import com.rentapp.ui.search.recycler.AnouncementAdapter;
+import com.rentapp.ui.search.recycler.AnouncementViewHolder;
 
 import java.util.List;
 
 
-public class MyAnouncementsFragment extends Fragment {
+public class MyAnouncementsFragment extends Fragment implements AnouncementViewHolder.OnAnouncementClick {
 
     public static MyAnouncementsFragment newInstance() {
         MyAnouncementsFragment fragment = new MyAnouncementsFragment();
@@ -73,13 +74,18 @@ public class MyAnouncementsFragment extends Fragment {
         buttonAddAnouncement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AnouncementActivity.start(getContext());
+                NewAnouncementActivity.start(getContext());
             }
         });
 
         recyclerView = getActivity().findViewById(R.id.my_anouncements_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new AnouncementAdapter();
+        adapter = new AnouncementAdapter(this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClick(int i) {
+
     }
 }

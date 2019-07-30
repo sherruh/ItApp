@@ -59,4 +59,6 @@ public class MainActivity extends AppCompatActivity {
         navView.setSelectedItemId(R.id.navigation_search);
     }
 
+    //TODO Croperino
+
 }

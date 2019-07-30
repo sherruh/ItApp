@@ -20,19 +20,21 @@ import android.widget.EditText;
 import com.google.android.material.appbar.AppBarLayout;
 import com.rentapp.R;
 import com.rentapp.model.Anouncement;
+import com.rentapp.ui.anouncementdetails.AnouncementsDetailsActivity;
 import com.rentapp.ui.search.recycler.AnouncementAdapter;
+import com.rentapp.ui.search.recycler.AnouncementViewHolder;
+import com.rentapp.utils.Logger;
 
 import java.util.List;
 
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements AnouncementViewHolder.OnAnouncementClick {
 
     private SearchViewModel viewModel;
     private RecyclerView recyclerView;
     private AnouncementAdapter adapter;
     private EditText editSearch;
     private AppBarLayout appBarLayout;
-    private int recyclerPostiion;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -66,7 +68,7 @@ public class SearchFragment extends Fragment {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new AnouncementAdapter();
+        adapter = new AnouncementAdapter( this);
         recyclerView.setAdapter(adapter);
 
         appBarLayout = getActivity().findViewById(R.id.appbar);
@@ -108,10 +110,13 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onPause() {
-        viewModel.saveAdapterPostition(recyclerPostiion);
         appBarLayout.setExpanded(true);
         super.onPause();
     }
 
-    //TODO find adapter Position
+    @Override
+    public void onClick(int i) {
+        AnouncementsDetailsActivity.start(getContext(),viewModel.vehiclesLiveData.getValue().get(i));
+    }
+
 }
