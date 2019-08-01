@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".ui.anouncementdetails.AnouncementsDetailsActivity"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/anouncemets_details_image1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
+
+    <ImageView
+        android:id="@+id/anouncemets_details_image2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
+
+    <ImageView
+        android:id="@+id/anouncemets_details_image3"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
+
+    <ImageView
+        android:id="@+id/anouncemets_details_image4"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
+    <TextView
+        android:id="@+id/anouncemets_details_text_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+</LinearLayout>
