@@ -18,7 +18,7 @@ public interface IRemoteStorage {
 
     void getVehicleMarks(GetFromRemoteCallback callback);
 
-    void uploadImage(String imageName, Uri uri,GetFromRemoteCallback callback);
+    void uploadImage(String imageName, Uri outputImageUri,GetFromRemoteCallback callback);
 
     public interface WriteToRemoteCallback{
 

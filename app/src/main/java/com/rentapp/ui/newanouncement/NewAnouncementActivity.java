@@ -1,18 +1,19 @@
 package com.rentapp.ui.newanouncement;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.content.Context;
-import android.os.Environment;
-import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,13 +23,15 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
+import com.mikelau.croperino.Croperino;
+import com.mikelau.croperino.CroperinoConfig;
+import com.mikelau.croperino.CroperinoFileUtil;
 import com.rentapp.App;
 import com.rentapp.R;
 import com.rentapp.model.Anouncement;
+import com.rentapp.utils.Logger;
 import com.rentapp.utils.Toaster;
 
-import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 import static android.R.layout.simple_spinner_item;
@@ -39,8 +42,6 @@ public class NewAnouncementActivity extends AppCompatActivity {
         Intent intent = new Intent(context, NewAnouncementActivity.class);
         context.startActivity(intent);
     }
-
-    private final int RC_CAMERA = 1;
 
     private EditText editYear;
     private EditText editCity;
@@ -58,7 +59,6 @@ public class NewAnouncementActivity extends AppCompatActivity {
     private Spinner spinnerMarks;
     private NewAnouncementViewModel viewModel;
 
-    private Uri outputFileUri;
     private String imageName;
 
 
@@ -186,6 +186,7 @@ public class NewAnouncementActivity extends AppCompatActivity {
             public void onClick(View v) {
                 currentImageId = image4.getId();
                 viewModel.onClickCamera(NewAnouncementActivity.this);
+
             }
         });
 
@@ -194,28 +195,93 @@ public class NewAnouncementActivity extends AppCompatActivity {
         progressBarIsUploading = findViewById(R.id.anouncement_progress);
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == RC_CAMERA) {
-            if (resultCode == Activity.RESULT_OK) {
-                Glide.with(findViewById(currentImageId)).load(outputFileUri).into((ImageView) findViewById(currentImageId));
-                    viewModel.sendImage(imageName,outputFileUri);
+        switch (requestCode) {
+            case CroperinoConfig.REQUEST_TAKE_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    Croperino.runCropImage(CroperinoFileUtil.getTempFile(),
+                            NewAnouncementActivity.this, true, 16, 12,
+                            R.color.gray, R.color.gray_variant);
+                    Logger.message("URI " + Uri.fromFile(CroperinoFileUtil.getTempFile()));
                 }
-
+                break;
+            case CroperinoConfig.REQUEST_PICK_FILE:
+                if (resultCode == Activity.RESULT_OK) {
+                    CroperinoFileUtil.newGalleryFile(data, NewAnouncementActivity.this);
+                    Croperino.runCropImage(CroperinoFileUtil.getTempFile(), NewAnouncementActivity.this,
+                            true, 16, 12, R.color.gray, R.color.gray_variant);
+                }
+                break;
+            case CroperinoConfig.REQUEST_CROP_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri outputImageUri = Uri.fromFile(CroperinoFileUtil.getTempFile());
+                    Glide.with(findViewById(currentImageId)).load(outputImageUri).into((ImageView) findViewById(currentImageId));
+                    viewModel.sendImage(imageName,outputImageUri);
+                }
+                break;
+            default:
+                break;
         }
+
     }
 
     private void startCamera() {
 
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
+        imageName = "IMG_" + System.currentTimeMillis() + ".jpg";
+        new CroperinoConfig(imageName, "/Pictures/Camera/", "/sdcard/Pictures/Camera/");
+        CroperinoFileUtil.setupDirectory(NewAnouncementActivity.this);
+        prepareChooser();
+    }
 
-        imageName =  "photo" + new Date().getTime() + ".jpg";
-        String path = Environment.getExternalStorageDirectory() + "/" + imageName;
-        File file = new File(path);
-        outputFileUri = Uri.fromFile(file);
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        startActivityForResult(intent, RC_CAMERA);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == CroperinoFileUtil.REQUEST_CAMERA) {
+            for (int i = 0; i < permissions.length; i++) {
+                String permission = permissions[i];
+                int grantResult = grantResults[i];
+
+                if (permission.equals(Manifest.permission.CAMERA)) {
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        prepareCamera();
+                    }
+                }
+            }
+        } else if (requestCode == CroperinoFileUtil.REQUEST_EXTERNAL_STORAGE) {
+            boolean wasReadGranted = false;
+            boolean wasWriteGranted = false;
+
+            for (int i = 0; i < permissions.length; i++) {
+                String permission = permissions[i];
+                int grantResult = grantResults[i];
+
+                if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        wasReadGranted = true;
+                    }
+                }
+                if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        wasWriteGranted = true;
+                    }
+                }
+            }
+
+            if (wasReadGranted && wasWriteGranted) {
+                prepareChooser();
+            }
+        }
+    }
+
+    private void prepareChooser() {
+        Croperino.prepareChooser(NewAnouncementActivity.this, "Capture photo...",
+                ContextCompat.getColor(NewAnouncementActivity.this, android.R.color.background_dark));
+    }
+
+    private void prepareCamera() {
+        Croperino.prepareCamera(NewAnouncementActivity.this);
     }
 }

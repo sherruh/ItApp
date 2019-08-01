@@ -75,9 +75,9 @@ public class NewAnouncementViewModel extends ViewModel {
     }
 
 
-    public void sendImage(String imageName, Uri outputFileUri) {
+    public void sendImage(String imageName, Uri outputImageUri) {
 
-        App.remoteStorage.uploadImage(imageName, outputFileUri, new IRemoteStorage.GetFromRemoteCallback() {
+        App.remoteStorage.uploadImage(imageName, outputImageUri, new IRemoteStorage.GetFromRemoteCallback() {
             @Override
             public void onSucces(Object data) {
                 Logger.message((String) data);

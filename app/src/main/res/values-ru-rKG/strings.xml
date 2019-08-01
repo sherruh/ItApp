@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">RentApp</string>
     <string name="price">%1$d С/день</string>
+    <string name="menu_gallery">Галерея</string>
 </resources>
