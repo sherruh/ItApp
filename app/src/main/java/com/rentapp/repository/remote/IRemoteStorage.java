@@ -16,7 +16,7 @@ public interface IRemoteStorage {
 
     void getUserAnouncements(String userId, GetFromRemoteCallback callback);
 
-    void getVehicleMarks(GetFromRemoteCallback callback);
+    void getVehicleBrands(GetFromRemoteCallback callback);
 
     void uploadImage(String imageName, Uri outputImageUri,GetFromRemoteCallback callback);
 

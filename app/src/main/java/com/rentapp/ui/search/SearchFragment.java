@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.rentapp.R;
@@ -35,9 +36,12 @@ public class SearchFragment extends Fragment implements AnouncementViewHolder.On
     private AnouncementAdapter adapter;
     private EditText editSearch;
     private AppBarLayout appBarLayout;
+    private ProgressBar progressBarIsLoading;
 
     public static SearchFragment newInstance() {
+
         return new SearchFragment();
+
     }
 
     @Override
@@ -49,12 +53,14 @@ public class SearchFragment extends Fragment implements AnouncementViewHolder.On
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
 
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
         initView();
         initViewModel();
@@ -72,7 +78,7 @@ public class SearchFragment extends Fragment implements AnouncementViewHolder.On
         recyclerView.setAdapter(adapter);
 
         appBarLayout = getActivity().findViewById(R.id.appbar);
-
+        progressBarIsLoading = getActivity().findViewById(R.id.fragment_search_progress_is_loading);
         editSearch = getActivity().findViewById(R.id.search_edit_search);
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -90,6 +96,7 @@ public class SearchFragment extends Fragment implements AnouncementViewHolder.On
 
             }
         });
+
     }
 
     private void initViewModel() {
@@ -102,10 +109,18 @@ public class SearchFragment extends Fragment implements AnouncementViewHolder.On
                     adapter.setAnouncements(anouncements);
                 }
             });
+            viewModel.isLoading.observe(getActivity(), new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean aBoolean) {
+                    if (aBoolean) progressBarIsLoading.setVisibility(View.VISIBLE);
+                    else progressBarIsLoading.setVisibility(View.GONE);
+                }
+            });
         }else {
             adapter.setAnouncements(viewModel.vehiclesLiveData.getValue());
             recyclerView.scrollToPosition(viewModel.getAdapterPosition());
         }
+
     }
 
     @Override
@@ -116,7 +131,8 @@ public class SearchFragment extends Fragment implements AnouncementViewHolder.On
 
     @Override
     public void onClick(int i) {
-        AnouncementsDetailsActivity.start(getContext(),viewModel.vehiclesLiveData.getValue().get(i));
+        AnouncementsDetailsActivity.start(getContext(),
+                viewModel.vehiclesLiveData.getValue().get(i));
     }
 
 }

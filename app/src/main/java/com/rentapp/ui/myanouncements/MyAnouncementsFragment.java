@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rentapp.R;
@@ -34,6 +35,7 @@ public class MyAnouncementsFragment extends Fragment implements AnouncementViewH
     private FloatingActionButton buttonAddAnouncement;
     private RecyclerView recyclerView;
     private AnouncementAdapter adapter;
+    private ProgressBar progressBarIsLoading;
 
     private MyAnouncementsViewModel viewModel;
 
@@ -60,6 +62,13 @@ public class MyAnouncementsFragment extends Fragment implements AnouncementViewH
                 adapter.setAnouncements(anouncements);
             }
         });
+        viewModel.isLoading.observe(getActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) progressBarIsLoading.setVisibility(View.VISIBLE);
+                else progressBarIsLoading.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -77,6 +86,8 @@ public class MyAnouncementsFragment extends Fragment implements AnouncementViewH
                 NewAnouncementActivity.start(getContext());
             }
         });
+
+        progressBarIsLoading = getActivity().findViewById(R.id.fragment_my_anouncements_progress_is_loading);
 
         recyclerView = getActivity().findViewById(R.id.my_anouncements_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

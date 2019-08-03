@@ -122,7 +122,7 @@ public class RemoteStorage implements IRemoteStorage {
     }
 
     @Override
-    public void getVehicleMarks(final GetFromRemoteCallback callback) {
+    public void getVehicleBrands(final GetFromRemoteCallback callback) {
 
         db.collection(TABLE_VEHICLES)
                 .get()

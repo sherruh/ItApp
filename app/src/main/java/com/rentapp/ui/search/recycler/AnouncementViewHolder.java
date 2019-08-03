@@ -1,6 +1,5 @@
 package com.rentapp.ui.search.recycler;
 
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +42,7 @@ public class AnouncementViewHolder extends RecyclerView.ViewHolder {
 
     public void onBind(Anouncement anouncement){
 
-        textTitle.setText( "Title: " + anouncement.getTitle());
+        textTitle.setText( "Brand: " + anouncement.getBrand());
         textPrice.setText( "Price: " + String.valueOf(anouncement.getPrice()));
 
         for (ImageView imageView : images) {

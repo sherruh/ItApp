@@ -1,28 +1,34 @@
 package com.rentapp.model;
 
-import com.google.firebase.auth.FirebaseUser;
-import com.rentapp.App;
-
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 public class Anouncement implements Serializable {
-    private String title;
+    private String brand;
     private String yearOfCar;
     private String city;
+    private String type;
     private int price;
     private String userID;
     private List<String> imagesUrl;
 
-    public Anouncement(String title, String yearOfCar, String city, int price, String userID, List<String> imagesUrl) {
-        this.title = title;//TODO rename to Brand
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Anouncement(String brand, String yearOfCar, String city, String type, int price, String userID, List<String> imagesUrl) {
+        this.brand = brand;
         this.yearOfCar = yearOfCar;
         this.city = city;
+        this.type = type;
         this.price = price;
         this.userID = userID;
         this.imagesUrl = imagesUrl;
-        //TODO add type
     }
 
     public Anouncement() {
@@ -37,12 +43,12 @@ public class Anouncement implements Serializable {
         this.userID = userID;
     }
 
-    public String getTitle() {
-        return title;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public String getYearOfCar() {

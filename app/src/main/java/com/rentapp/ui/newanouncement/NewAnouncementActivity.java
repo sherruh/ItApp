@@ -57,6 +57,7 @@ public class NewAnouncementActivity extends AppCompatActivity {
 
     private ProgressBar progressBarIsUploading;
     private Spinner spinnerMarks;
+    private Spinner spinnerBrands;
     private NewAnouncementViewModel viewModel;
 
     private String imageName;
@@ -65,7 +66,7 @@ public class NewAnouncementActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_anouncement);
+        setContentView(R.layout.activity_new_anouncement);
 
         initView();
 
@@ -106,13 +107,19 @@ public class NewAnouncementActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.vehicleMarksLiveData.observe(this, new Observer<List<String>>() {
+        viewModel.vehicleBrandsLiveData.observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> vehicleMarks) {
 
-                ArrayAdapter<String> adapter = new ArrayAdapter(NewAnouncementActivity.this, simple_spinner_item,vehicleMarks);
+                ArrayAdapter<String> adapter1 = new ArrayAdapter(NewAnouncementActivity.this, simple_spinner_item,vehicleMarks);
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerMarks.setAdapter(adapter1);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter(NewAnouncementActivity.this,
+                        simple_spinner_item,vehicleMarks);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerMarks.setAdapter(adapter);
+                spinnerBrands.setAdapter(adapter);
+
             }
         });
 
@@ -148,7 +155,7 @@ public class NewAnouncementActivity extends AppCompatActivity {
                 viewModel.addAnouncement(new Anouncement(spinnerMarks.getSelectedItem().toString(),
                         editYear.getText().toString(),
                         editCity.getText().toString(),
-                        price, App.getFirebaseUser().getUid(),null
+                        "sedan",price, App.getFirebaseUser().getUid(),null
                         ));
             }
         });
@@ -191,6 +198,7 @@ public class NewAnouncementActivity extends AppCompatActivity {
         });
 
         spinnerMarks = findViewById(R.id.anouncement_spinner_mark);
+        spinnerBrands = findViewById(R.id.anouncement_spinner_brand);
 
         progressBarIsUploading = findViewById(R.id.anouncement_progress);
     }

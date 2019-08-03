@@ -19,7 +19,7 @@ import java.util.List;
 public class NewAnouncementViewModel extends ViewModel {
 
     MutableLiveData<String> transactionResult = new MutableLiveData<>();
-    MutableLiveData<List<String>> vehicleMarksLiveData = new MutableLiveData<>();
+    MutableLiveData<List<String>> vehicleBrandsLiveData = new MutableLiveData<>();
     MutableLiveData<Boolean> isUploading = new MutableLiveData<>();
     SingleLiveEvent<Void> upLoadedEvent = new SingleLiveEvent<>();
     SingleLiveEvent<Void> hasCameraEvent = new SingleLiveEvent<>();
@@ -48,12 +48,12 @@ public class NewAnouncementViewModel extends ViewModel {
 
     public void getVehicleMarks(){
 
-        App.remoteStorage.getVehicleMarks(new IRemoteStorage.GetFromRemoteCallback<List<String>>() {
+        App.remoteStorage.getVehicleBrands(new IRemoteStorage.GetFromRemoteCallback<List<String>>() {
 
             @Override
             public void onSucces(List<String> data) {
 
-                vehicleMarksLiveData.setValue(data);
+                vehicleBrandsLiveData.setValue(data);
             }
 
             @Override
@@ -77,12 +77,13 @@ public class NewAnouncementViewModel extends ViewModel {
 
     public void sendImage(String imageName, Uri outputImageUri) {
 
+        isUploading.setValue(true);
         App.remoteStorage.uploadImage(imageName, outputImageUri, new IRemoteStorage.GetFromRemoteCallback() {
             @Override
             public void onSucces(Object data) {
                 Logger.message((String) data);
                 imageUrls.add((String)data);
-                //TODO check uploadings
+
             }
 
             @Override
@@ -91,5 +92,7 @@ public class NewAnouncementViewModel extends ViewModel {
                 Logger.message(message);
             }
         });
+
+        isUploading.setValue(false);
     }
 }

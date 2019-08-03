@@ -12,10 +12,13 @@ import java.util.List;
 public class SearchViewModel extends ViewModel {
     MutableLiveData<List<Anouncement>> vehiclesLiveData = new MutableLiveData<>();
     MutableLiveData<String> messageLiveData = new MutableLiveData<>();
+    MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     private int adapterPosition;
 
     public void getAllVehicles(){
+
+        isLoading.setValue(true);
 
         App.remoteStorage.getAnouncements(new IRemoteStorage.GetFromRemoteCallback<List<Anouncement>>() {
             @Override
@@ -33,9 +36,13 @@ public class SearchViewModel extends ViewModel {
             }
         });
 
+        isLoading.setValue(false);
+
     }
 
     public void getFilteredAnouncements(String filter){
+
+        isLoading.setValue(true);
 
         App.remoteStorage.getFilteredAnouncements(filter, new IRemoteStorage.GetFromRemoteCallback<List<Anouncement>>() {
             @Override
@@ -50,6 +57,8 @@ public class SearchViewModel extends ViewModel {
                 messageLiveData.setValue(message);
             }
         });
+
+        isLoading.setValue(false);
     }
 
     public void saveAdapterPostition(int i){
@@ -63,5 +72,4 @@ public class SearchViewModel extends ViewModel {
         return adapterPosition;
     }
 
-    //TODO isLoading
 }

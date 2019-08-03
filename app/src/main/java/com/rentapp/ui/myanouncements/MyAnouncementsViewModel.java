@@ -13,8 +13,12 @@ public class MyAnouncementsViewModel extends ViewModel {
 
     MutableLiveData<List<Anouncement>> anouncementsOfUserLiveData = new MutableLiveData<>();
     MutableLiveData<String> messageLiveData = new MutableLiveData<>();
+    MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     public void getUserAnouncements(){
+
+        isLoading.setValue(true);
+
         App.remoteStorage.getUserAnouncements(App.getFirebaseUser().getUid(), new IRemoteStorage.GetFromRemoteCallback<List<Anouncement>>() {
             @Override
             public void onSucces(List<Anouncement> anouncements) {
@@ -28,5 +32,7 @@ public class MyAnouncementsViewModel extends ViewModel {
                 messageLiveData.setValue(message);
             }
         });
+
+        isLoading.setValue(false);
     }
 }
